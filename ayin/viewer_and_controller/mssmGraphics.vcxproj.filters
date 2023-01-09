@@ -1,0 +1,249 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;c++;cppm;ixx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hh;hpp;hxx;h++;hm;inl;inc;ipp;xsd</Extensions>
+    </Filter>
+    <Filter Include="Resource Files">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+    <Filter Include="Source Files\glfw_src">
+      <UniqueIdentifier>{779d2125-bf26-445d-b512-0e0bed804fea}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\nanovg">
+      <UniqueIdentifier>{fb8de437-3c84-4c04-b71c-8afbd3fa48f4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\soloud">
+      <UniqueIdentifier>{8fa80bb5-f547-4ce6-9e39-cb3eeab0c38f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\soloud\core">
+      <UniqueIdentifier>{3677dbe2-aa74-4af2-aa92-136c17ab3eee}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\soloud\backend">
+      <UniqueIdentifier>{125d4a40-6a14-4f77-881e-b77b56a444ea}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\soloud\audiosource">
+      <UniqueIdentifier>{3760df21-2738-443b-83e8-986d11e76222}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\soloud\audiosource\wav">
+      <UniqueIdentifier>{d14b08e0-7f8a-4598-8a60-cb52711e416e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\soloud\backend\miniaudio">
+      <UniqueIdentifier>{d640b5af-fe80-4b10-8948-b73479672c4c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\src">
+      <UniqueIdentifier>{669357c0-7c3a-4af6-9b2b-2e87aaf9cac1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\glfw_src">
+      <UniqueIdentifier>{829f5682-7305-426a-83b7-83d3bd6632de}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\include">
+      <UniqueIdentifier>{634110ca-0352-4742-a559-cac4ba70188d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\nanovg">
+      <UniqueIdentifier>{adc74c19-9096-438b-8b6e-41458476b39f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\soloud">
+      <UniqueIdentifier>{f43c932b-7543-4b6f-9bea-bdf7586c80ea}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\soloud\audiosource">
+      <UniqueIdentifier>{38306726-f6f0-4630-8450-473fd1a58541}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\soloud\audiosource\wav">
+      <UniqueIdentifier>{6dd8e424-5907-4f90-b37c-abd35541cc0c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\soloud\backend">
+      <UniqueIdentifier>{bdca2bec-5936-45aa-b2bf-f4b2759bf7cc}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\soloud\backend\minaudio">
+      <UniqueIdentifier>{c91c88c8-5745-4a25-82f9-fef3551f22a3}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="glfw_src\context.c">
+      <Filter>Source Files\glfw_src</Filter>
+    </ClCompile>
+    <ClCompile Include="glfw_src\egl_context.c">
+      <Filter>Source Files\glfw_src</Filter>
+    </ClCompile>
+    <ClCompile Include="glfw_src\init.c">
+      <Filter>Source Files\glfw_src</Filter>
+    </ClCompile>
+    <ClCompile Include="glfw_src\input.c">
+      <Filter>Source Files\glfw_src</Filter>
+    </ClCompile>
+    <ClCompile Include="glfw_src\monitor.c">
+      <Filter>Source Files\glfw_src</Filter>
+    </ClCompile>
+    <ClCompile Include="glfw_src\osmesa_context.c">
+      <Filter>Source Files\glfw_src</Filter>
+    </ClCompile>
+    <ClCompile Include="glfw_src\vulkan.c">
+      <Filter>Source Files\glfw_src</Filter>
+    </ClCompile>
+    <ClCompile Include="glfw_src\wgl_context.c">
+      <Filter>Source Files\glfw_src</Filter>
+    </ClCompile>
+    <ClCompile Include="glfw_src\win32_init.c">
+      <Filter>Source Files\glfw_src</Filter>
+    </ClCompile>
+    <ClCompile Include="glfw_src\win32_joystick.c">
+      <Filter>Source Files\glfw_src</Filter>
+    </ClCompile>
+    <ClCompile Include="glfw_src\win32_monitor.c">
+      <Filter>Source Files\glfw_src</Filter>
+    </ClCompile>
+    <ClCompile Include="glfw_src\win32_thread.c">
+      <Filter>Source Files\glfw_src</Filter>
+    </ClCompile>
+    <ClCompile Include="glfw_src\win32_time.c">
+      <Filter>Source Files\glfw_src</Filter>
+    </ClCompile>
+    <ClCompile Include="glfw_src\win32_window.c">
+      <Filter>Source Files\glfw_src</Filter>
+    </ClCompile>
+    <ClCompile Include="glfw_src\window.c">
+      <Filter>Source Files\glfw_src</Filter>
+    </ClCompile>
+    <ClCompile Include="nanovg\nanovg.c">
+      <Filter>Source Files\nanovg</Filter>
+    </ClCompile>
+    <ClCompile Include="src\glew.c">
+      <Filter>Source Files\src</Filter>
+    </ClCompile>
+    <ClCompile Include="src\graphics.cpp">
+      <Filter>Source Files\src</Filter>
+    </ClCompile>
+    <ClCompile Include="src\vec2d.cpp">
+      <Filter>Source Files\src</Filter>
+    </ClCompile>
+    <ClCompile Include="src\whereami.c">
+      <Filter>Source Files\src</Filter>
+    </ClCompile>
+    <ClCompile Include="main.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="soloud\src\core\soloud.cpp">
+      <Filter>Source Files\soloud\core</Filter>
+    </ClCompile>
+    <ClCompile Include="soloud\src\core\soloud_audiosource.cpp">
+      <Filter>Source Files\soloud\core</Filter>
+    </ClCompile>
+    <ClCompile Include="soloud\src\core\soloud_bus.cpp">
+      <Filter>Source Files\soloud\core</Filter>
+    </ClCompile>
+    <ClCompile Include="soloud\src\core\soloud_core_3d.cpp">
+      <Filter>Source Files\soloud\core</Filter>
+    </ClCompile>
+    <ClCompile Include="soloud\src\core\soloud_core_basicops.cpp">
+      <Filter>Source Files\soloud\core</Filter>
+    </ClCompile>
+    <ClCompile Include="soloud\src\core\soloud_core_faderops.cpp">
+      <Filter>Source Files\soloud\core</Filter>
+    </ClCompile>
+    <ClCompile Include="soloud\src\core\soloud_core_filterops.cpp">
+      <Filter>Source Files\soloud\core</Filter>
+    </ClCompile>
+    <ClCompile Include="soloud\src\core\soloud_core_getters.cpp">
+      <Filter>Source Files\soloud\core</Filter>
+    </ClCompile>
+    <ClCompile Include="soloud\src\core\soloud_core_setters.cpp">
+      <Filter>Source Files\soloud\core</Filter>
+    </ClCompile>
+    <ClCompile Include="soloud\src\core\soloud_core_voicegroup.cpp">
+      <Filter>Source Files\soloud\core</Filter>
+    </ClCompile>
+    <ClCompile Include="soloud\src\core\soloud_core_voiceops.cpp">
+      <Filter>Source Files\soloud\core</Filter>
+    </ClCompile>
+    <ClCompile Include="soloud\src\backend\miniaudio\soloud_miniaudio.cpp">
+      <Filter>Source Files\soloud\backend\miniaudio</Filter>
+    </ClCompile>
+    <ClCompile Include="soloud\src\audiosource\wav\soloud_wav.cpp">
+      <Filter>Source Files\soloud\audiosource\wav</Filter>
+    </ClCompile>
+    <ClCompile Include="soloud\src\audiosource\wav\soloud_wavstream.cpp">
+      <Filter>Source Files\soloud\audiosource\wav</Filter>
+    </ClCompile>
+    <ClCompile Include="soloud\src\audiosource\wav\dr_impl.cpp">
+      <Filter>Source Files\soloud\audiosource\wav</Filter>
+    </ClCompile>
+    <ClCompile Include="soloud\src\audiosource\wav\stb_vorbis.c">
+      <Filter>Source Files\soloud\audiosource\wav</Filter>
+    </ClCompile>
+    <ClCompile Include="soloud\src\core\soloud_filter.cpp">
+      <Filter>Source Files\soloud\core</Filter>
+    </ClCompile>
+    <ClCompile Include="soloud\src\core\soloud_fader.cpp">
+      <Filter>Source Files\soloud\core</Filter>
+    </ClCompile>
+    <ClCompile Include="soloud\src\core\soloud_fft.cpp">
+      <Filter>Source Files\soloud\core</Filter>
+    </ClCompile>
+    <ClCompile Include="soloud\src\core\soloud_fft_lut.cpp">
+      <Filter>Source Files\soloud\core</Filter>
+    </ClCompile>
+    <ClCompile Include="soloud\src\core\soloud_file.cpp">
+      <Filter>Source Files\soloud\core</Filter>
+    </ClCompile>
+    <ClCompile Include="soloud\src\core\soloud_thread.cpp">
+      <Filter>Source Files\soloud\core</Filter>
+    </ClCompile>
+    <ClCompile Include="soloud\src\core\soloud_misc.cpp">
+      <Filter>Source Files\soloud\core</Filter>
+    </ClCompile>
+    <ClCompile Include="soloud\src\core\soloud_queue.cpp">
+      <Filter>Source Files\soloud\core</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="nanovg\fontstash.h">
+      <Filter>Header Files\nanovg</Filter>
+    </ClInclude>
+    <ClInclude Include="nanovg\nanovg.h">
+      <Filter>Header Files\nanovg</Filter>
+    </ClInclude>
+    <ClInclude Include="nanovg\nanovg_gl.h">
+      <Filter>Header Files\nanovg</Filter>
+    </ClInclude>
+    <ClInclude Include="nanovg\nanovg_gl_utils.h">
+      <Filter>Header Files\nanovg</Filter>
+    </ClInclude>
+    <ClInclude Include="nanovg\stb_image.h">
+      <Filter>Header Files\nanovg</Filter>
+    </ClInclude>
+    <ClInclude Include="nanovg\stb_truetype.h">
+      <Filter>Header Files\nanovg</Filter>
+    </ClInclude>
+    <ClInclude Include="include\graphics.h">
+      <Filter>Header Files\include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\vec2d.h">
+      <Filter>Header Files\include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\whereami.h">
+      <Filter>Header Files\include</Filter>
+    </ClInclude>
+    <ClInclude Include="soloud\include\audiosource\wav\dr_flac.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="soloud\include\audiosource\wav\dr_mp3.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="soloud\include\audiosource\wav\dr_wav.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="soloud\include\audiosource\wav\stb_vorbis.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="soloud\include\backend\miniaudio\miniaudio.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+  </ItemGroup>
+</Project>
