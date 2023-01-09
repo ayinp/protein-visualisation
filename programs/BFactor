@@ -1,0 +1,5 @@
+BFactor
+from libtbx.program_template import ProgramTemplate
+
+
+pdb = open(r"File_Name","Access_Mode") 
