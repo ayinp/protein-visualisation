@@ -1,9 +1,9 @@
 # DS ignore
-.DS_Store
+*.DS_Store
 
 # Blank Python Files
-.__init__.py
-.__init__.pyc
+*.__init__.py
+*.__init__.pyc
 
 # C++ objects and libs
 *.slo
