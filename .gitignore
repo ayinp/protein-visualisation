@@ -1,5 +1,5 @@
 # DS ignore
-.DS_store
+.DS_Store
 
 # C++ objects and libs
 *.slo
