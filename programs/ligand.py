@@ -22,13 +22,35 @@ def get_phil_base_pairs(pdb_hierarchy, nonbonded_proxies,
   # Get potential hbonds
   n_nonb = len(sorted_nonb)
   i = 0
+
+  ligands = {}
+
   while i < n_nonb and sorted_nonb[i][3] < hbond_distance_cutoff:
     (labels, i_seq, j_seq, dist, vdw_distance, sym_op_j, rt_mx) = sorted_nonb[i]
     a1 = atoms[i_seq]
     ag1 = a1.parent()
     a2 = atoms[j_seq]
     ag2 = a2.parent()
-    print(a1.quote(),a2.quote(),dist, ag1.resname, ag2.resname, get_class(ag1.resname), get_class(ag2.resname))
+    print("a1 quote:",a1.quote(),". a2 quote:",a2.quote(),". dist:",dist, ". a1 resname:",ag1.resname, ". a2 resname:",ag2.resname, ". a1 resname class:",get_class(ag1.resname), ". a2 resname class:",get_class(ag2.resname))
+    if get_class(ag1.resname)=='other' or get_class(ag2.resname)=='other':
+      if get_class(ag1.resname)=='other':
+        LAg = ag1
+        LA = a1
+        NLA = a2
+      else:
+        LAg = ag2
+        LA = a2
+        NLA = a1
+      ligands.setdefault(LAg.id_str(), [])
+      ligands[LAg.id_str()].append({LA.name.strip():NLA.id_str()})
+      print(ligands)
+      for other, item in ligands.items():
+        print(other)
+        for an1 in item:
+          print('  %s' % an1)
+    i += 1
+
+"""
     if (get_class(ag1.resname, consider_ccp4_mon_lib_rna_dna=True) in \
           ["common_rna_dna", "ccp4_mon_lib_rna_dna"] and
         get_class(ag2.resname, consider_ccp4_mon_lib_rna_dna=True) in \
@@ -40,7 +62,7 @@ def get_phil_base_pairs(pdb_hierarchy, nonbonded_proxies,
         (ag1.altloc.strip() == ag2.altloc.strip()) and
         final_link_direction_check(a1, a2)):
       hbonds.append((i_seq, j_seq))
-    i += 1
+"""
 
 class Program(ProgramTemplate):
   datatypes = ['model', 'phil']
