@@ -2,8 +2,7 @@
 *.DS_Store
 
 # Blank Python Files
-*.__init__.py
-*.__init__.pyc
+*.pyc
 
 # C++ objects and libs
 *.slo
