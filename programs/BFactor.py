@@ -43,7 +43,7 @@ class Program(ProgramTemplate):
         chain = rg.parent()
         if atom.element_is_hydrogen():
           continue
-        print(ag.resname,chain.id, rg.resseq)
+        # print(ag.resname,chain.id, rg.resseq)
     # print(dir(ag))
     # print('rg',rg.id_str())
     # print(chain.id)
@@ -87,8 +87,6 @@ class Program(ProgramTemplate):
 
   def results(self):
     return self.results
-#--------------------------------------------------------
-
 
 
 
