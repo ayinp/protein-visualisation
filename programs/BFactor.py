@@ -31,20 +31,23 @@ class Program(ProgramTemplate):
       num_mc = 0
       num_sc = 0
       atom_group = residue_group.atom_groups()[0]
+      # print(atom_group.id)
+      # assert 0
       atom_Type = get_class(atom_group.resname)
       if atom_Type != 'common_amino_acid': 
         continue
+
       for atom in residue_group.atoms():
         ag = atom.parent()
         rg = ag.parent()
         chain = rg.parent()
-        # print(ag.resname,chain.id, rg.resseq)
-        
-        # assert 0
-    # print('ag',ag.id_str())
+        if atom.element_is_hydrogen():
+          continue
+        print(ag.resname,chain.id, rg.resseq)
     # print(dir(ag))
     # print('rg',rg.id_str())
     # print(chain.id)
+    # print(ag.resname,chain.id, rg.resseq)
 
         averages.setdefault('res', 0)
         averages['res'] += atom.b
@@ -52,7 +55,7 @@ class Program(ProgramTemplate):
         if atom.name.strip() == 'CA':
           averages['CA'] = atom.b
           #print('foundCA')
-        if atom.name.strip() in ['CA', 'N', 'C', 'O']:
+        if atom.name.strip() in ['CA', 'N', 'C', 'O', 'OXT']:
           averages.setdefault('main', 0)
           averages['main'] += atom.b
           num_mc += 1
