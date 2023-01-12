@@ -1,10 +1,12 @@
+# imports
+
 from libtbx.program_template import ProgramTemplate
 import sys
 from iotbx.pdb import common_residue_names_get_class as get_class
 
-class ligandConnections(dict):
-  # def __init__ (self):
+# ligand class
 
+class ligandConnections(dict):
   def __repr__(self):
     outl = 'ligand connection'
     for other, item in self.items():
@@ -14,8 +16,23 @@ class ligandConnections(dict):
     return outl
 
   def find_h_bonds(self):
-    # 2.8
-    assert 0
+    hBonds = []
+    print('1'*80)
+    for other, item in self.items():
+      for an1 in item:
+        #print('an1',an1)
+        val = an1.values()[0]
+        #print('val',val)
+        if val["dist"]<=2.9 and val["isHydrogen"]==True:
+          if val["LA element"] == "O" or val["NLA element"] == "O":
+            val["isHbond"] = True
+            hBonds.append(val)
+            print(val)
+    print(hBonds)
+
+    # def GUIfilter(self):
+
+# getting info
 
 def get_phil_base_pairs(pdb_hierarchy, nonbonded_proxies,
     prefix=None, params=None,
@@ -38,6 +55,8 @@ def get_phil_base_pairs(pdb_hierarchy, nonbonded_proxies,
   n_nonb = len(sorted_nonb)
   i = 0
 
+# making list of ligands
+
   ligands = ligandConnections()
 
   while i < n_nonb and sorted_nonb[i][3] < hbond_distance_cutoff:
@@ -57,15 +76,18 @@ def get_phil_base_pairs(pdb_hierarchy, nonbonded_proxies,
         LA = a2
         NLA = a1
       ligands.setdefault(LAg.id_str(), [])
-      extraInfo = {'atom': NLA.id_str(), 'dist' : dist, 'vdwDist' : vdw_distance}
-      # rename that ^ lol
-      if sym_op_j:
-        extraInfo['sym op j'] = sym_op_j
+      NLAinfo = {'atom': NLA.id_str(), 'dist' : dist, 'vdwDist' : vdw_distance, 'isHydrogen' : NLA.element_is_hydrogen()}
       if rt_mx:
-        extraInfo['rot matrix'] = rt_mx
-      ligands[LAg.id_str()].append({LA.name.strip():extraInfo})
+        NLAinfo['rot matrix'] = rt_mx
+      NLAinfo['LA element'] = LA.element.strip()
+      NLAinfo['NLA element'] = NLA.element.strip()
+      ligands[LAg.id_str()].append({LA.name.strip():NLAinfo})
     i += 1
   print(ligands)
+
+  ligands.find_h_bonds()
+
+# prog class
 
 class Program(ProgramTemplate):
   datatypes = ['model', 'phil']
