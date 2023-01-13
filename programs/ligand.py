@@ -17,7 +17,6 @@ class ligandConnections(dict):
 
   def find_h_bonds(self):
     hBonds = []
-    print('1'*80)
     for other, item in self.items():
       for an1 in item:
         #print('an1',an1)
@@ -27,10 +26,23 @@ class ligandConnections(dict):
           if val["LA element"] == "O" or val["NLA element"] == "O":
             val["isHbond"] = True
             hBonds.append(val)
-            print(val)
-    print(hBonds)
+      print('Hydrogen bonds: \n', hBonds)
+      return hBonds
 
-    # def GUIfilter(self):
+  def GUIfilter(self):
+    temp = ligandConnections()
+    for other, item in self.items():
+      for an1 in item:
+        # print('an1',an1)
+        temp[tuple(an1.keys())]=an1.values()
+        if "vdw_distance" in temp[tuple(an1.keys())]:
+          temp[tuple(an1.keys())].pop("vdw_distance")
+        if "isHydrogen" in temp[tuple(an1.keys())]:
+          temp[tuple(an1.keys())].pop("isHydrogen")
+        if "rot matrix" in temp[tuple(an1.keys())]:
+          temp[tuple(an1.keys())].pop("rot matrix")
+    print('Ligands (GUI form)\n', temp)
+    return temp
 
 # getting info
 
@@ -66,7 +78,7 @@ def get_phil_base_pairs(pdb_hierarchy, nonbonded_proxies,
     a2 = atoms[j_seq]
     ag2 = a2.parent()
     if get_class(ag1.resname)=='other' or get_class(ag2.resname)=='other':
-      print("a1 quote:",a1.quote(),". a2 quote:",a2.quote(),". dist:",dist, ". a1 resname:",ag1.resname, ". a2 resname:",ag2.resname, ". a1 resname class:",get_class(ag1.resname), ". a2 resname class:",get_class(ag2.resname))
+      #print("a1 quote:",a1.quote(),". a2 quote:",a2.quote(),". dist:",dist, ". a1 resname:",ag1.resname, ". a2 resname:",ag2.resname, ". a1 resname class:",get_class(ag1.resname), ". a2 resname class:",get_class(ag2.resname))
       if get_class(ag1.resname)=='other':
         LAg = ag1
         LA = a1
@@ -83,9 +95,10 @@ def get_phil_base_pairs(pdb_hierarchy, nonbonded_proxies,
       NLAinfo['NLA element'] = NLA.element.strip()
       ligands[LAg.id_str()].append({LA.name.strip():NLAinfo})
     i += 1
-  print(ligands)
+  print('Ligands: \n', ligands)
 
   ligands.find_h_bonds()
+  ligands.GUIfilter()
 
 # prog class
 
