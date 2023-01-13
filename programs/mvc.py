@@ -30,7 +30,7 @@ def polToLin(r,theta):
 	return point
 
 def rainbow(prop):
-    if(prop > 1):
+    if(prop > 1 or prop < 0):
         return [0,0,0]
     r = 255*prop
     b = (1-prop)*255
@@ -62,6 +62,7 @@ class Mywin(wx.Frame):
     	self.InitUI() 
           
     def InitUI(self): 
+        self.up = True
         self.prop = 0
         self.bg_color = "pink"
         self.panel = wx.Panel(self)
@@ -86,7 +87,18 @@ class Mywin(wx.Frame):
         text = wx.StaticText(self.panel, label = "WHY DID YOU DO THAT", size = (200, 300), pos = (100,100))
         self.sizer.Add(text, proportion = 10, flag = wx.Centre, border = 10)
         self.bg_color = rainbow(self.prop)
-        self.prop += .1
+        if(self.up):
+            self.prop += .05
+            print(self.prop)
+        else:
+            self.prop -= .05
+            print(self.prop)
+        if(self.prop > 1):
+            self.prop = 1
+            self.up = False
+        elif(self.prop < 0):
+            self.prop = 0
+            self.up = True
         self.Refresh()
         self.Centre()
         self.Show(True)
