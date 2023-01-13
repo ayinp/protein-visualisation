@@ -1,5 +1,6 @@
 from libtbx.program_template import ProgramTemplate
 from iotbx.pdb import common_residue_names_get_class as get_class
+from cctbx import adptbx
 
 class pv_data(dict):
   def __re1pr__(self):
@@ -31,7 +32,6 @@ class Program(ProgramTemplate):
       num_mc = 0
       num_sc = 0
       atom_group = residue_group.atom_groups()[0]
-      # print(atom_group.id)
       # assert 0
       atom_Type = get_class(atom_group.resname)
       if atom_Type != 'common_amino_acid': 
@@ -43,12 +43,22 @@ class Program(ProgramTemplate):
         chain = rg.parent()
         if atom.element_is_hydrogen():
           continue
+        # print(dir(atom))
+#------------------------------------------------------------
+  #Anisotropic BFactor Check
+        # if (atom.uij_is_defined):
+        #   print(atom.uij)
+        #   print(adptbx.u_as_b(adptbx.u_cart_as_u_iso(atom.uij)))
+        #   print(atom.b)
+#------------------------------------------------------------
+  #See Different Classes and Branches
         # print(ag.resname,chain.id, rg.resseq)
     # print(dir(ag))
     # print('rg',rg.id_str())
     # print(chain.id)
     # print(ag.resname,chain.id, rg.resseq)
-
+#------------------------------------------------------------
+  #Averages 
         averages.setdefault('res', 0)
         averages['res'] += atom.b
 
@@ -78,16 +88,15 @@ class Program(ProgramTemplate):
     # print(BFactor)
     for key, item in BFactor.items():
       print(key, item)
+    print(BFactor.get_chain("A"))
+    print(BFactor.get_chain("B"))
 
-    # print(BFactor.get_chain("A"))
-    # print(BFactor.get_chain("B"))
 
   def run(self): 
     self.BFactorFinder()
 
   def results(self):
     return self.results
-
 
 
 
