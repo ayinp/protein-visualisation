@@ -82,30 +82,21 @@ class Program(ProgramTemplate):
     print(self.get_chain_gaps('A'))
     print(self.get_chain_gaps('B'))
 
-  def get_chain_connections(self, chain_id):
-    print('get_chain_connections', chain_id)
+  def get_linkage_info(self, chain_id, key):
+    print('get_linkage_info', chain_id)
     rc = self.results.get(chain_id, {})
     if not rc:
       return rc
-
-    return rc['all connections']
+    return rc.get(key, {})
 
   def get_chain_gaps(self, chain_id):
     print('get_chain_gaps', chain_id)
-    rc = self.results.get(chain_id, {})
-    if not rc:
-      return rc
+    return self.get_linkage_info(chain_id, 'all gaps')  
 
-    return rc['all gaps']
+  def get_chain_connections(self, chain_id):
+    return self.get_linkage_info(chain_id, 'all connections')
 
-  def get_linkage_info(self, chain_id, key):
-    if key == 'all gaps':
-      get_chain_gaps(self, chain_id)
-    if key == 'all connections':
-      get_chain_connections(self, chain_id)
-
-
-  def results(self):
+  def get_results(self):
     return self.results
 
 #--------------------------------------------------------------------------------
