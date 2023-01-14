@@ -46,10 +46,10 @@ class Program(ProgramTemplate):
         # print(dir(atom))
 #------------------------------------------------------------
   #Anisotropic BFactor Check
-        # if (atom.uij_is_defined):
-        #   print(atom.uij)
-        #   print(adptbx.u_as_b(adptbx.u_cart_as_u_iso(atom.uij)))
-        #   print(atom.b)
+      # if (atom.uij_is_defined):
+      #   print(atom.uij)
+      #   print(adptbx.u_as_b(adptbx.u_cart_as_u_iso(atom.uij)))
+      #   print(atom.b)
 #------------------------------------------------------------
   #See Different Classes and Branches
         # print(ag.resname,chain.id, rg.resseq)
@@ -99,6 +99,12 @@ class Program(ProgramTemplate):
     return self.results
 
 
+# MainChain normally should be < SideChain (more movement outside)
+#1yjp
+  #(' TYR A   7 ', {'res': 15.122307692307695, 'CA': 15.18, 'main': 15.807999999999998, 'side': 14.693750000000001})
+  #(' ASN A   6 ', {'res': 12.60625, 'CA': 12.3, 'main': 12.9025, 'side': 12.31})
+  #Pi Stacking
+    #Above the maine chain has a higher BFactor average than the side chain. But it can be justified because the side chain is stacked with other proteins, it restricted the movements of the side chain, which reduced the BFactor. 
 
 
 
