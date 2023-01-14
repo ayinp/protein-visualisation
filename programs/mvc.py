@@ -6,6 +6,7 @@ import math
 import wx 
 from iotbx.cli_parser import run_program
 import sys
+import random
 
 #-------------------------------------------------------------------------------------------------------------------
 #tools
@@ -13,7 +14,6 @@ import sys
 class MyError:
 	def __init__(self, message):
 		self.message = message
-
 
 def linToPol(x,y):
 	if(y == 0):
@@ -24,7 +24,6 @@ def linToPol(x,y):
 	print(point)
 	return point
 
-
 def polToLin(r,theta):
 	point = wx.Point(r*math.cos(theta), r*math.sin(theta))
 	return point
@@ -33,27 +32,14 @@ def rainbow(prop):
     if(prop > 1 or prop < 0):
         return [0,0,0]
     r = 255*prop
-    b = (1-prop)*255
+    b = 255*(1-prop)
     return [r,0,b]
-
 
 #----------------------------------------------------------------------------------------------------------------------
 #threading
 
-print(rainbow(.2))
-
-
-
-
 #---------------------------------------------------------------------------------------------------------------------
 #window stuff
-
-
-#create a panel class and add it to the frame class
-#for button color change
-    #color want = self.colour, save, on paint will read it and change the background
-    #create an event class w/ attrobute and pass it to on paint
-
 
 class Mywin(wx.Frame): 
             
@@ -62,15 +48,16 @@ class Mywin(wx.Frame):
     	self.InitUI() 
           
     def InitUI(self): 
-        self.up = True
+        print("initUI")
+        # self.up = True
         self.prop = 0
+        self.numRects = 0
+        self.rectColors = []
+
         self.bg_color = "pink"
         self.panel = wx.Panel(self)
         self.sizer = wx.BoxSizer(wx.VERTICAL)
-        text = wx.StaticText(self.panel, label = "wow, I am sooo good at text")
-        text.SetBackgroundColour((0,255,0))
-        self.sizer.Add(text, proportion = 1, flag = wx.RIGHT, border = 5)
-
+        
         ID_NO = wx.NewId()
         button = wx.Button(self, ID_NO, 'DO NOT PRESS THIS BUTTON', pos=(20,40))
         button.Bind(wx.EVT_BUTTON, self.OnClicked, id=ID_NO)
@@ -82,39 +69,51 @@ class Mywin(wx.Frame):
 
         self.Bind(wx.EVT_PAINT, self.OnPaint) 
 
-
     def OnClicked(self, event):
-        text = wx.StaticText(self.panel, label = "WHY DID YOU DO THAT", size = (200, 300), pos = (100,100))
-        self.sizer.Add(text, proportion = 10, flag = wx.Centre, border = 10)
-        self.bg_color = rainbow(self.prop)
-        if(self.up):
-            self.prop += .05
-            print(self.prop)
-        else:
-            self.prop -= .05
-            print(self.prop)
-        if(self.prop > 1):
-            self.prop = 1
-            self.up = False
-        elif(self.prop < 0):
-            self.prop = 0
-            self.up = True
+        print("in on clicked rn")
+        self.myWinRun()
+        if(self.results is None):
+            self.results = 0
+        self.numRects = self.results
+        print(self.numRects)
+        for num in range(0, self.numRects, 1):
+            self.prop = random.random()
+            self.rectColors.append(rainbow(self.prop))
+        # self.bg_color = rainbow(self.prop)
+        # if(self.up):
+        #     self.prop += .05
+        #     print(self.prop)
+        # else:
+        #     self.prop -= .05
+        #     print(self.prop)
+        # if(self.prop > 1):
+        #     self.prop = 1
+        #     self.up = False
+        # elif(self.prop < 0):
+        #     self.prop = 0
+        #     self.up = True
         self.Refresh()
         self.Centre()
         self.Show(True)
-
 
     def OnPaint(self, e): 
         print("on paint")
         dc = wx.PaintDC(self) 
         dc.SetBackground(wx.Brush(self.bg_color))  
         dc.Clear() 
-        color = wx.Colour(255,0,0)
-        b = wx.Brush(color) 
-        dc.SetBrush(b) 
-        
+
+        for i,col in enumerate (self.rectColors):
+            color = wx.Colour(*tuple(col))
+            b = wx.Brush(color)
+            dc.SetBrush(b)
+            dc.DrawRectangle(i*50, 100, 50,50)
+
+
     def myWinRun(self):
-        run_program(program_class=Program, args=[sys.argv[1]])
+        print("myWinRun")
+        self.results = run_program(program_class=Program, args=[sys.argv[1]])
+        print("these are the results")
+        print(self.results)
   
 #-------------------------------------------------------------------------------------------------------------------		
 #program stuff
@@ -123,29 +122,36 @@ class Program(ProgramTemplate):
     datatypes = ['model', 'phil']
   
     def validate(self): pass
-  
+
     def run(self):
+        print("i am running the program!")
     	model = self.data_manager.get_model()
     	hierarchy = model.get_hierarchy()
-    	print("residue groups \n")
-    	for residue_group in hierarchy.residue_groups():
-    		for atom in residue_group.atoms():
-    			print(atom.quote())
+        #print(dir(hierarchy))
+        #this is only the first chain which is an issue for later </3
+        #dictionary with a key of a chain, and for each chain we put interests
+        for chain in hierarchy.chains():
+            numRects = chain.residue_groups_size()
+        self.results = numRects
+    	# for residue_group in hierarchy.residue_groups():
+    	# 	for atom in residue_group.atoms():
+    	# 		print(atom.quote())
+        print('RESY')
+        print(self.results)
 
-    def results(self):
+    def get_results(self):
+        print("returing stuff", self.results)
     	return self.results
   
     def drawResidueGroups(self, dc):
+        print("if this shows up somethign went wrong")
     	numDeg = (3*math.pi()/2)/len(hierarchy.residue_groups)
     	d = 1/6*numDeg
     	dc.AddArc(300, -45, 225)
-#----------------------------------------------------------------------------------------------------------------------------
-#running stuff
-
+# ----------------------------------------------------------------------------------------------------------------------------
+# running stuff
 
 if __name__=='__main__':
-	ex = wx.App() 
-	w = Mywin(None,'Drawing demo')
-	ex.MainLoop()
-
-
+    ex = wx.App() 
+    w = Mywin(None,'Drawing demo')
+    ex.MainLoop()
