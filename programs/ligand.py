@@ -98,7 +98,6 @@ def get_phil_base_pairs(pdb_hierarchy, nonbonded_proxies,
   print('Ligands: \n', ligands)
 
   ligands.find_h_bonds()
-  #ligands.GUIfilter()
 
 # prog class
 
