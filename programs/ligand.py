@@ -29,20 +29,20 @@ class ligandConnections(dict):
       print('Hydrogen bonds: \n', hBonds)
       return hBonds
 
-  def GUIfilter(self):
-    temp = ligandConnections()
-    for other, item in self.items():
-      for an1 in item:
-        # print('an1',an1)
-        temp[tuple(an1.keys())]=an1.values()
-        if "vdw_distance" in temp[tuple(an1.keys())]:
-          temp[tuple(an1.keys())].pop("vdw_distance")
-        if "isHydrogen" in temp[tuple(an1.keys())]:
-          temp[tuple(an1.keys())].pop("isHydrogen")
-        if "rot matrix" in temp[tuple(an1.keys())]:
-          temp[tuple(an1.keys())].pop("rot matrix")
-    print('Ligands (GUI form)\n', temp)
-    return temp
+  # def GUIfilter(self):
+  #   temp = ligandConnections()
+  #   for other, item in self.items():
+  #     for an1 in item:
+  #       # print('an1',an1)
+  #       temp[tuple(an1.keys())]=an1.values()
+  #       if "vdw_distance" in temp[tuple(an1.keys())]:
+  #         temp[tuple(an1.keys())].pop("vdw_distance")
+  #       if "isHydrogen" in temp[tuple(an1.keys())]:
+  #         temp[tuple(an1.keys())].pop("isHydrogen")
+  #       if "rot matrix" in temp[tuple(an1.keys())]:
+  #         temp[tuple(an1.keys())].pop("rot matrix")
+  #   print('Ligands (GUI form)\n', temp)
+  #   return temp
 
 # getting info
 
@@ -98,7 +98,7 @@ def get_phil_base_pairs(pdb_hierarchy, nonbonded_proxies,
   print('Ligands: \n', ligands)
 
   ligands.find_h_bonds()
-  ligands.GUIfilter()
+  #ligands.GUIfilter()
 
 # prog class
 
