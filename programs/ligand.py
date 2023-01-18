@@ -25,6 +25,15 @@ class ligandConnections(dict):
         if val["dist"]<=2.9 and val["isHydrogen"]==True:
           if val["LA element"] == "O" or val["NLA element"] == "O":
             val["isHbond"] = True
+            val["bondedWith"] = 'Oxygen'
+            hBonds.append(val)
+          elif val["LA element"] == "N" or val["NLA element"] == "N":
+            val["isHbond"] = True
+            val["bondedWith"] = 'Nitrogen'
+            hBonds.append(val)
+          elif val["LA element"] == "F" or val["NLA element"] == "F":
+            val["isHbond"] = True
+            val["bondedWith"] = 'Flourine'
             hBonds.append(val)
       print('Hydrogen bonds: \n', hBonds)
       return hBonds
