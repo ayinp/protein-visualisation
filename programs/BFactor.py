@@ -1,11 +1,25 @@
 from libtbx.program_template import ProgramTemplate
 from iotbx.pdb import common_residue_names_get_class as get_class
 from cctbx import adptbx
+import sys
 
 class pv_data(dict):
   def __re1pr__(self):
     outl = 'test'
     return outl
+
+  def NumHighBFactor(self, chain_id, BFactorThreshHold, atr = 'res'):
+    rc = self.get_chain(chain_id)
+    # print(rc)
+    NumHigh = 0
+    for i,(key,item) in enumerate(rc.items()):
+      # print(i,key,item)
+      if item.get(atr, 0) > BFactorThreshHold:
+        NumHigh += 1
+    return NumHigh
+
+  # def get_chain(self, chain_id):
+  #   return self.get(chain_id,{})
 
   def get_chain(self, chain_id):
     tmp = {}
@@ -24,11 +38,12 @@ class Program(ProgramTemplate):
 #--------------------------------------------------------
   def BFactorFinder(self):
     model = self.data_manager.get_model()
-    print('model',dir(model))
+    #print('model',dir(model))
     BFactor = pv_data()
     hierarchy = model.get_hierarchy()
     for residue_group in hierarchy.residue_groups():
       averages = {}
+      # NumHigh = 0
       num_mc = 0
       num_sc = 0
       atom_group = residue_group.atom_groups()[0]
@@ -49,7 +64,7 @@ class Program(ProgramTemplate):
       # if (atom.uij_is_defined):
       #   print(atom.uij)
       #   print(adptbx.u_as_b(adptbx.u_cart_as_u_iso(atom.uij)))
-      #   print(atom.b)
+      #   print(atom.b) 
 #------------------------------------------------------------
   #See Different Classes and Branches
         # print(ag.resname,chain.id, rg.resseq)
@@ -91,6 +106,10 @@ class Program(ProgramTemplate):
     print(BFactor.get_chain("A"))
     print(BFactor.get_chain("B"))
 
+    print(BFactor.NumHighBFactor('A',10))
+    print(BFactor.NumHighBFactor('A',12))
+    print(BFactor.NumHighBFactor('A',12, 'side'))
+
 
   def run(self): 
     self.BFactorFinder()
@@ -99,15 +118,12 @@ class Program(ProgramTemplate):
     return self.results
 
 
-# MainChain normally should be < SideChain (more movement outside)
-#1yjp
-  #(' TYR A   7 ', {'res': 15.122307692307695, 'CA': 15.18, 'main': 15.807999999999998, 'side': 14.693750000000001})
-  #(' ASN A   6 ', {'res': 12.60625, 'CA': 12.3, 'main': 12.9025, 'side': 12.31})
-  #Pi Stacking
-    #Above the maine chain has a higher BFactor average than the side chain. But it can be justified because the side chain is stacked with other proteins, it restricted the movements of the side chain, which reduced the BFactor. 
-
-
-
-
-
+# import sys
+#   from iotbx.cli_parser import run_program
+#   if len(sys.argv)>=1:
+#     print('provide PDB file')
+#     exit()
+#   else:
+#     pdb_file = sys.argv[1]
+#     results = run_program(program_class=Program, args=sys.argv[1:])
 
