@@ -35,11 +35,57 @@ def toRad(degree):
     return degree*math.pi/180
 
 def rainbow(prop):
-    if(prop > 1 or prop < 0):
-        return [0,0,0]
-    r = 255*prop
-    b = 255*(1-prop)
-    return [r,0,b]
+    r = 0
+    g = 0
+    b = 0
+    if(prop>=0 and prop<=.4):
+        x = (prop)/(.4)
+        r = 255*(x)
+        g = 255
+        print('a')
+    elif(prop>=.4 and prop<=1):
+        x = (prop-.4)/(.6)
+        r = 255
+        g = 255*(x)
+        print('b')
+    print(prop)
+    print([r,g,b])
+    return [r,g,b]
+
+# def rainbow(prop):
+#     r = 0
+#     g = 0
+#     b = 0
+#     if(prop >= 0 and prop <=.25):
+#         r = 0
+#         g = 255*(prop)
+#         b = 255
+#         print('a')
+#     elif(prop >= .25 and prop <=.5):
+#         r = 0
+#         g = 255
+#         b = 255*(prop)
+#         print('b')
+#     elif(prop >= .5 and prop <=.75):
+#         r = 255*(prop)
+#         g = 255
+#         b = 0
+#         print('c')
+#     elif(prop >= .75 and prop <=1):
+#         r = 255
+#         g = 255*(prop)
+#         b = 0
+#         print('d')
+#     print(prop)
+#     print([r,g,b])
+#     return [r,g,b]
+
+# def rainbow(prop):
+#     if(prop > 1 or prop < 0):
+#         return [0,0,0]
+#     r = 255*prop
+#     b = 255*(1-prop)
+#     return [r,0,b]
 
 #---------------------------------------------------------------------------------------------------------------------
 #window stuff
@@ -130,13 +176,22 @@ class Mywin(wx.Frame):
         self.Centre()
         self.Show(True)
 
-    # def yuh(self):
-    #     totalTheta = toRad(270)
-    #     boxAngle = totalTheta/self.rectColors
-    #     pointList = []
-    #     for i, col in self.rectColors:
-    #         print(i, col)
-    #         # pointList.append([])
+    def yuh(self):
+        totalTheta = toRad(270)
+        boxAngle = totalTheta/len(self.rectColors)
+        pointList = []
+        nextList = []
+        returnList = []
+        for i, j in enumerate(self.rectColors):
+            pointList.append([300,boxAngle*i + toRad(135)])
+        for i, thing in enumerate(pointList):
+            nextList.append(polToLin(thing[0],thing[1]))
+        print(nextList)
+        for i, thing in enumerate(nextList):
+            returnList.append([thing[0] + 500, thing[1] + 355])
+        print(returnList)
+        return returnList
+            
 
 
     def OnPaint(self, e): 
@@ -144,17 +199,19 @@ class Mywin(wx.Frame):
         dc = wx.PaintDC(self) 
         dc.SetBackground(wx.Brush(self.bg_color))  
         dc.Clear() 
+        points = self.yuh()
         for i,col in enumerate (self.rectColors):
             color = wx.Colour(*tuple(col))
             b = wx.Brush(color)
             dc.SetBrush(b)
-            row = math.floor(i/20)+2
-            column = i%20
-            xPos = column*50
-            yPos = row*50
-            dc.DrawRectangle(xPos, yPos, 50,50)
-        # print("YUH")
-        # self.yuh()
+            dc.DrawCircle(points[i][0], points[i][1], 10)
+            # row = math.floor(i/20)+2
+            # column = i%20
+            # xPos = column*50
+            # yPos = row*50
+            # dc.DrawRectangle(xPos, yPos, 50,50)
+        print("YUH")
+        self.yuh()
 
 
     def myWinRun(self):
