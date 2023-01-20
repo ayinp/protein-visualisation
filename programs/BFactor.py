@@ -8,18 +8,15 @@ class pv_data(dict):
     outl = 'test'
     return outl
 
-  def NumHighBFactor(self, chain_id, BFactorThreshHold, atr = 'res'):
+# Display the number of residue group/chains in the protein that are above a chosing B-Factor 
+  def NumHighBFactor(self, chain_id, BFactorThreshHold, atr = 'res'): 
     rc = self.get_chain(chain_id)
-    # print(rc)
     NumHigh = 0
     for i,(key,item) in enumerate(rc.items()):
       # print(i,key,item)
       if item.get(atr, 0) > BFactorThreshHold:
         NumHigh += 1
     return NumHigh
-
-  # def get_chain(self, chain_id):
-  #   return self.get(chain_id,{})
 
   def get_chain(self, chain_id):
     tmp = {}
@@ -29,7 +26,6 @@ class pv_data(dict):
     return tmp
 
 class Program(ProgramTemplate):
-
   datatypes = ['model','phil']
 
   def validate(self): 
@@ -43,7 +39,6 @@ class Program(ProgramTemplate):
     hierarchy = model.get_hierarchy()
     for residue_group in hierarchy.residue_groups():
       averages = {}
-      # NumHigh = 0
       num_mc = 0
       num_sc = 0
       atom_group = residue_group.atom_groups()[0]
@@ -53,6 +48,7 @@ class Program(ProgramTemplate):
         continue
 
       for atom in residue_group.atoms():
+        IndividualBFactor = {}
         ag = atom.parent()
         rg = ag.parent()
         chain = rg.parent()
@@ -73,42 +69,43 @@ class Program(ProgramTemplate):
     # print(chain.id)
     # print(ag.resname,chain.id, rg.resseq)
 #------------------------------------------------------------
-  #Averages 
+  # Math to calculate different sum of B-Factor averages 
         averages.setdefault('res', 0)
-        averages['res'] += atom.b
+        averages['res'] += atom.b 
 
+      # Find CA and their B-Factor sum
         if atom.name.strip() == 'CA':
           averages['CA'] = atom.b
-          #print('foundCA')
+
+      # Number of main chain and their sum
         if atom.name.strip() in ['CA', 'N', 'C', 'O', 'OXT']:
           averages.setdefault('main', 0)
           averages['main'] += atom.b
           num_mc += 1
-          #print('foundMC',atom.name)
+      
+      # Number of side chain and their sum
         else:
           averages.setdefault('side', 0)
           averages['side'] += atom.b
-          num_sc += 1      
-      #print (num_mc,num_sc)
+          num_sc += 1 
+    
+    # Averages      
       if num_mc != 0:
         averages['main'] /= num_mc
       if num_sc != 0:
         averages['side'] /= num_sc
       averages['res'] /= (num_mc + num_sc)
 
-      # BFactor['chain.id'] = chain.id
-      # BFactor['rg.resseq'] = rg.resseq
       BFactor[ag.id_str()] = averages
 
-    # print(BFactor)
+  # Display calculation of averages      
     for key, item in BFactor.items():
       print(key, item)
-    print(BFactor.get_chain("A"))
-    print(BFactor.get_chain("B"))
-
-    print(BFactor.NumHighBFactor('A',10))
-    print(BFactor.NumHighBFactor('A',12))
-    print(BFactor.NumHighBFactor('A',12, 'side'))
+    print('Chain A residue groups B-factor averages', BFactor.get_chain("A"))
+    print('Chain B residue groups B-factor averages',BFactor.get_chain("B"))
+   
+    print('Chain A residue group averages B-factors higher than 10', BFactor.NumHighBFactor('A',10))
+    print('Chain A, side residue group averages B-factors higher than 12', BFactor.NumHighBFactor('A',12, 'side'))
 
 
   def run(self): 
