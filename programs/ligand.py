@@ -1,12 +1,15 @@
-# imports
+#Imports
 
 from libtbx.program_template import ProgramTemplate
 import sys
 from iotbx.pdb import common_residue_names_get_class as get_class
 
-# ligand class
+#Ligand class
 
 class ligandConnections(dict):
+
+#Making the print neater
+
   def __repr__(self):
     outl = 'ligand connection'
     for other, item in self.items():
@@ -15,6 +18,8 @@ class ligandConnections(dict):
         outl += '  %s\n' % an1
     return outl
 
+#Finding hBonds
+
   def find_h_bonds(self):
     hBonds = []
     for other, item in self.items():
@@ -22,7 +27,8 @@ class ligandConnections(dict):
         #print('an1',an1)
         val = an1.values()[0]
         #print('val',val)
-        if val["dist"]<=2.9 and val["isHydrogen"]==True:
+        #Checking if something is hBond
+        if val["dist"]<=3 and val["isHydrogen"]==True:
           if val["LA element"] == "O" or val["NLA element"] == "O":
             val["isHbond"] = True
             val["bondedWith"] = 'Oxygen'
@@ -35,59 +41,40 @@ class ligandConnections(dict):
             val["isHbond"] = True
             val["bondedWith"] = 'Flourine'
             hBonds.append(val)
-      print('Hydrogen bonds: \n', hBonds)
+      print('Hydrogen bonds:', hBonds)
       return hBonds
 
-  # def GUIfilter(self):
-  #   temp = ligandConnections()
-  #   for other, item in self.items():
-  #     for an1 in item:
-  #       # print('an1',an1)
-  #       temp[tuple(an1.keys())]=an1.values()
-  #       if "vdw_distance" in temp[tuple(an1.keys())]:
-  #         temp[tuple(an1.keys())].pop("vdw_distance")
-  #       if "isHydrogen" in temp[tuple(an1.keys())]:
-  #         temp[tuple(an1.keys())].pop("isHydrogen")
-  #       if "rot matrix" in temp[tuple(an1.keys())]:
-  #         temp[tuple(an1.keys())].pop("rot matrix")
-  #   print('Ligands (GUI form)\n', temp)
-  #   return temp
-
-# getting info
+#Getting info from PDB
 
 def get_phil_base_pairs(pdb_hierarchy, nonbonded_proxies,
     prefix=None, params=None,
     log=sys.stdout, add_segid=None, verbose=-1):
-  hbond_distance_cutoff = 2.9
-  if params is not None:
-    hbond_distance_cutoff = params.hbond_distance_cutoff
-  hbonds = []
-  result = ""
+  distance_cutoff = 3.5 #Self-explanitory
   atoms = pdb_hierarchy.atoms()
+  #Frankly I don't know why the names are all like this, but it makes the program actually work.
   sites_cart = atoms.extract_xyz()
   get_sorted_result = nonbonded_proxies.get_sorted(
       by_value="delta",
       sites_cart=sites_cart)
-  if get_sorted_result is None:
-    return result
   sorted_nonb, n_not_shown = get_sorted_result
-
-  # Get potential hbonds
   n_nonb = len(sorted_nonb)
   i = 0
 
-# making list of ligands
-
+# Making dictionary of ligands, though it is empty now
   ligands = ligandConnections()
 
-  while i < n_nonb and sorted_nonb[i][3] < hbond_distance_cutoff:
+#Adding ligands to aforementioned dict
+  while i < n_nonb and sorted_nonb[i][3] < distance_cutoff:
     (labels, i_seq, j_seq, dist, vdw_distance, sym_op_j, rt_mx) = sorted_nonb[i]
+    #Snagging that yummy atom info and making it prettier
     a1 = atoms[i_seq]
     ag1 = a1.parent()
     a2 = atoms[j_seq]
     ag2 = a2.parent()
+    #Seeing if there is an atom that is a ligand
     if get_class(ag1.resname)=='other' or get_class(ag2.resname)=='other':
       #print("a1 quote:",a1.quote(),". a2 quote:",a2.quote(),". dist:",dist, ". a1 resname:",ag1.resname, ". a2 resname:",ag2.resname, ". a1 resname class:",get_class(ag1.resname), ". a2 resname class:",get_class(ag2.resname))
+      #Specifiying which is ligand (LA) and which isn't (NLA)
       if get_class(ag1.resname)=='other':
         LAg = ag1
         LA = a1
@@ -96,6 +83,7 @@ def get_phil_base_pairs(pdb_hierarchy, nonbonded_proxies,
         LAg = ag2
         LA = a2
         NLA = a1
+      #Putting atom info into dict        
       ligands.setdefault(LAg.id_str(), [])
       NLAinfo = {'atom': NLA.id_str(), 'dist' : dist, 'vdwDist' : vdw_distance, 'isHydrogen' : NLA.element_is_hydrogen()}
       if rt_mx:
@@ -104,11 +92,11 @@ def get_phil_base_pairs(pdb_hierarchy, nonbonded_proxies,
       NLAinfo['NLA element'] = NLA.element.strip()
       ligands[LAg.id_str()].append({LA.name.strip():NLAinfo})
     i += 1
-  print('Ligands: \n', ligands)
+  print('Ligands:', ligands)
 
   ligands.find_h_bonds()
 
-# prog class
+#This just runs the program
 
 class Program(ProgramTemplate):
   datatypes = ['model', 'phil']
